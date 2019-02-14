@@ -1,5 +1,7 @@
 # ML4H 2018 NeurIPS paper analysis
 
+**NOTE:** The full proceedings data has already been downloaded and extracted and is available [here](https://drive.google.com/drive/folders/10W316Q5w1cqeNa-HmBOOuVtXfk4Cc3tz). No need to re-run the full pipeline presently.
+
 ## Pipeline:
 
 Using conda:

@@ -4,7 +4,7 @@
 
 ## Pipeline:
 
-Using conda:
+Using [anaconda](https://www.anaconda.com/distribution/):
 
 ```bash
 conda env create -f environment.yml

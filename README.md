@@ -20,6 +20,7 @@ python pdf2text.py ./data/ML4H2018/pdf/ ./data/ML4H2018/txt/
 python pdf2text.py ./data/NeurIPS2018/pdf/ ./data/NeurIPS2018/txt/
 ```
 4. Run text pre-processing `NeurIPS_Proceedings_preprocess.ipynb`
+5. Run the `create_r_dataset.R` script to generate `.rdata` files
 
 ## Requires
 

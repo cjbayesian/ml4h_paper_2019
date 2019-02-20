@@ -22,7 +22,7 @@ python pdf2text.py ./data/NeurIPS2018/pdf/ ./data/NeurIPS2018/txt/
 4. Pre-process raw text
    - Run text pre-processing `NeurIPS_Proceedings_preprocess.ipynb` OR
    - Run the `create_r_dataset.R` script to generate `.rdata` files
-
+5. Optional: run the example topic model and visualization script `ldavis.R`.
 
 ## Requires
 

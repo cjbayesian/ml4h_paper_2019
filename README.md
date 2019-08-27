@@ -1,7 +1,5 @@
 # ML4H 2018 NeurIPS paper analysis
 
-**NOTE:** The full proceedings and workshop data have already been downloaded and extracted and is available [here](https://drive.google.com/drive/folders/1p3ZQYcIvhi1Wk3uLSgAEatVCMWY2KgYz). No need to re-run the full pipeline presently.
-
 ## Pipeline:
 
 Using [anaconda](https://www.anaconda.com/distribution/):

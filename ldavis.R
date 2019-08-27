@@ -92,13 +92,15 @@ plot(K_s,ll_all/K_s, type = "b")
 ## Train on whole corpus with larger K=20 topics
 G <- 5000
 t1 <- Sys.time()
-fit <- lda.collapsed.gibbs.sampler(documents = documents, K = 20, vocab = vocab, 
+fit <- lda.collapsed.gibbs.sampler(documents = documents, K = 12, vocab = vocab, 
                                    num.iterations = G, alpha = alpha, 
                                    eta = eta, initial = NULL, burnin = 0,
                                    compute.log.likelihood = TRUE)
 t2 <- Sys.time()
 t2 - t1  # about 10 minutes on laptop
 
+theta <- t(apply(fit$document_sums + alpha, 2, function(x) x/sum(x)))
+phi <- t(apply(t(fit$topics) + eta, 2, function(x) x/sum(x)))
 ml4h_papers_lda <- list(phi = phi,
                      theta = theta,
                      doc.length = doc.length,
@@ -113,7 +115,7 @@ json <- createJSON(phi = ml4h_papers_lda$phi,
                    term.frequency = ml4h_papers_lda$term.frequency)
 
 
-serVis(json, out.dir = 'ldavis', open.browser = FALSE)
+serVis(json, out.dir = 'ldavis12', open.browser = FALSE)
 # A simple way to locally serve up the vis is to run:
 # `python -m SimpleHTTPServer 8000`
 # from the `ldavis` path then open `localhost:8000` in your browser.

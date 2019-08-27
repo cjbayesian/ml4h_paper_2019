@@ -48,24 +48,56 @@ term.frequency <- as.integer(term.table)  # frequencies of terms in the corpus
 
 # MCMC and model tuning parameters:
 K <- 20
-G <- 5000
+G <- 500
 alpha <- 0.02
 eta <- 0.02
 
+
+n_documents <- length(documents)
+# ~90:10 train test split for perprlexity analysis
+train <- documents[1:150]
+test <- documents[151:length(documents)]
+
 # Fit the model:
+K_s <- c(4,8,12,16,20,24,28,32)
+ll_all = c()
 set.seed(357)
+for (K in K_s){
+  t1 <- Sys.time()
+  fit <- lda.collapsed.gibbs.sampler(documents = train, K = K, vocab = vocab, 
+                                     num.iterations = G, alpha = alpha, 
+                                     eta = eta, initial = NULL, burnin = 0,
+                                     compute.log.likelihood = TRUE)
+  t2 <- Sys.time()
+  t2 - t1  # about 10 minutes on laptop
+  
+  theta <- t(apply(fit$document_sums + alpha, 2, function(x) x/sum(x)))
+  phi <- t(apply(t(fit$topics) + eta, 2, function(x) x/sum(x)))
+  ll <- 0
+  for(document in test){
+    for (topic_i in 1:K) {
+      p_topic = (sum(theta[,topic_i])/n_train_documents)
+      ll_word = sum(log(unname(phi[topic_i,document[1,]])))
+      ll = ll + ll_word + log(p_topic)
+    }
+  }
+  ll_all = c(ll_all, ll)
+  print(ll_all)
+}
+
+## Minimum perplexity at ~12 topics
+plot(K_s,ll_all/K_s, type = "b")
+
+
+## Train on whole corpus with larger K=20 topics
+G <- 5000
 t1 <- Sys.time()
-fit <- lda.collapsed.gibbs.sampler(documents = documents, K = K, vocab = vocab, 
+fit <- lda.collapsed.gibbs.sampler(documents = documents, K = 20, vocab = vocab, 
                                    num.iterations = G, alpha = alpha, 
                                    eta = eta, initial = NULL, burnin = 0,
                                    compute.log.likelihood = TRUE)
 t2 <- Sys.time()
 t2 - t1  # about 10 minutes on laptop
-
-
-theta <- t(apply(fit$document_sums + alpha, 2, function(x) x/sum(x)))
-phi <- t(apply(t(fit$topics) + eta, 2, function(x) x/sum(x)))
-
 
 ml4h_papers_lda <- list(phi = phi,
                      theta = theta,
